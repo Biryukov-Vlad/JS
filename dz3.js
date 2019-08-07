@@ -4,6 +4,7 @@ var position;
 var counter;
 var index;
 var clone;
+var arr;
 var i;
 var n; //вспомогательная переменная "number", сокращённо "n"
 // магазин 
@@ -58,11 +59,9 @@ console.log(user);
 /************вариант №1************/
 
 var list = [];
-var i;
 var quantity = list.length;
 
 function notebook() {
-    var message;
 
     for (i = 0; i < 5; i++) {
         message = prompt("что записать в список под номером " + (Number(quantity) + Number(1)));
@@ -93,7 +92,7 @@ console.log(list.reverse());
 var list_2 = [];
 var message;
 var quantity = list_2.length;
-var i = 0;
+i = 0;
 
 function notebook2() {
     while (true) {
@@ -172,9 +171,7 @@ correctionText()
 /////////////////////
 /*  третье задание */
 
-var position = 0;
-var arr;
-var message;
+position = 0;
 // функция, находит позицию слова - исключения 
 function stopWord(array, text) {
     position = array.indexOf(text);
@@ -234,7 +231,7 @@ function quantityProduct() {
 
 // функция определяющая цену и название продукта
 function initProduct() {
-    for (var i = 0; i <= n; i++) {
+    for (i = 0; i <= n; i++) {
         shopProducts.products[i] = {};
         message = prompt("Название продукта " + (i + 1), "Название продукта");
 
@@ -267,7 +264,7 @@ function initProduct() {
     }
 }
 
-//создаётся магазин +++ shop
+
 //функция поиска по цене +++ searchProductPrice
 //функция поиска по названию +++ searchProductName
 //функция вывода всех товаров  +++ showProducts
@@ -349,12 +346,9 @@ function searchProductPrice(price) {
     else { }
 }
 
-
-
-function shop() {
-    shopName();
-    quantityProduct();
-    initProduct();
+/////////////////////////////////////////////////////////////////////////////
+//////////////////////////функции магазина///////////////////////////////////
+function shopFunction() {
     while (true) {
         message = prompt("можно выполнить следующие действия \n searchProductName - найти продукт по названию \n searchProductPrice - найти продукт по цене \n addProduct - добавить новый продукт \n updateByIndex - изменить цену товара по его номеру \n showProducts - Показать все продукты \n deleteByIndex - удалить продукт по номеру \n none - выти из магазина и вывести магазин в консоль");
         if (message == "none") {
@@ -444,4 +438,21 @@ function shop() {
         else { };
     }
 }
-shop();
+
+var shop = {
+    init: init
+}
+
+function init() {
+    // создаёт магазин
+    // имя
+    shopName();
+    // количество продуктов
+    quantityProduct();
+    // добавление продукта
+    initProduct();
+
+    // функции магазина
+    shopFunction()
+}
+shop.init();
