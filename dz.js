@@ -1,12 +1,12 @@
 // VAR
-var message;
-var position;
-var counter;
-var quantity
-var clone;
-var arr;
-var i;
-var n;
+var message,
+    position,
+    counter,
+    quantity,
+    clone,
+    arr,
+    i,
+    n;
 /*************************** Инструменты *****************************/
 /*************************** Функциии  ******************************/
 //проверка на Number
@@ -32,16 +32,15 @@ function checkInput(check) {
 var user = {};
 
 function infoUser() {
-    var message;
     message = prompt("введите Ваше Имя", "Ваше имя");
-    if (!!checkString(message)) {
+    if (checkString(message)) {
         user.name = message;
         message = prompt(user.name + ", введите ваш возраст", "21");
-        if (!!checkNumber(message)) {
+        if (checkNumber(message)) {
             user.age = Number(message);
             console.log(user);
         }
-        else alert("возраст указан не в том формате ");
+        else alert("возраст указан не в том формате "), infoUser();
 
     }
     else infoUser();
@@ -59,10 +58,9 @@ quantity = list.length;
 
 function notebook() {
     for (i = 0; i < 5; i++) {
-        message = prompt("что записать в список под номером " + (Number(quantity) + Number(1)));
-        if (!!checkInput(message)) {
+        message = prompt("что записать в список под номером " + (Number(i) + Number(1)));
+        if (checkInput(message)) {
             list.push(message);
-            quantity = list.length;
         }
         else if (message === "none") {
             i = 5;
@@ -92,13 +90,14 @@ quantity = list_2.length;
 function notebook2() {
     i = 0;
     while (true) {
-        message = prompt("что записать в список под номером " + (Number(quantity) + Number(1)))
-        if (!!checkInput(message)) {
+        message = prompt("что записать в список под номером " + (Number(i) + Number(1)))
+        if (checkInput(message)) {
             list_2.push(message);
-            quantity = list_2.length;
+            // quantity = list_2.length;
             i++;
             if (i == 5) {
                 console.log(list_2);
+                console.log(list_2.reverse());
                 break;
             }
         }
@@ -108,10 +107,7 @@ function notebook2() {
 
         else if (!checkInput(message)) {
             alert("если вы не хотите ничего записывать, введите none");
-        }
-
-        else { }
-
+        }    
     }
 }
 

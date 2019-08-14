@@ -1,47 +1,55 @@
-// VAR
-var message;
-var position;
-var counter;
-var index;
-var clone;
-var i;
-var shopProducts;
-var newName;
-var newPrice;
+//VAR
+var message,
+    position,
+    counter,
+    index,
+    clone,
+    i,
+    shop,
+    newName,
+    newPrice;
 ////////////////////////////////////////////
 /**************** магазин *****************/
-//функция поиска по цене +++ searchProductPrice
-//функция поиска по названию +++ searchProductName
-//функция вывода всех товаров  +++ showProducts
-//функция изменения цены товара по его номеру  +++ updateByIndex
-//функция добавления нового продукта в конец списка +++ addProduct
-//функция удаления продута по номеру в списке +++ deleteByIndex
-//функция выхода из магазина и вывода всего магазина в консоли +++ none
 
 init();
 
+
 function init() {
+    shop = {
+        products: [],
+        shopName: shopName,
+        quantityProduct: quantityProduct,
+        initProduct: initProduct,
+        shopFunction: shopFunction,
+
+        // функции магазина
+        searchProductPrice: searchProductPrice, //функция поиска по цене 
+        searchProductName: searchProductName,   //функция поиска по названию
+        showProducts: showProducts,             //функция вывода всех товаров
+        updateByIndex: updateByIndex,           //функция изменения цены товара по его номеру 
+        addProduct: addProduct,                 //функция добавления нового продукта в конец списка
+        deleteByIndex: deleteByIndex,           //функция удаления продута по номеру в списке
+        exitStore: exitStore                    //функция выхода из магазина и вывода всего магазина в консоли
+    };
     // имя
-    shopName();
+    shop.shopName();
     // количество продуктов
-    quantityProduct();
+    shop.quantityProduct();
     // добавление продукта
-    initProduct();
+    shop.initProduct();
     // функции магазина
-    shopFunction()
+    shop.shopFunction()
 }
 // функция определяющая название магазина 
 function shopName() {
-    shopProducts = {};
-    shopProducts.products = [];
     while (true) {
         message = prompt("Как назавёте свой магазин?", "Название магазина");
-        if (!!checkInput(message) && message != "noname") {
-            shopProducts.nameShop = message;
+        if (checkInput(message) && message != "noname") {
+            shop.name = message;
             break;
         }
         else if (message == "noname") {
-            shopProducts.nameShop = "";
+            shop.name = "";
             break;
         }
         else if (message == "") {
@@ -54,7 +62,7 @@ function quantityProduct() {
     while (true) {
         quantity = prompt("Введите количество продуктов", "2");
         n = quantity - 1;
-        if (!!checkNumber(n) && n >= 0) {
+        if (checkNumber(n) && n >= 0) {
             break;
         }
         else if (quantity == "none") {
@@ -74,14 +82,14 @@ function quantityProduct() {
 // функция определяющая цену и название продукта
 function initProduct() {
     for (i = 0; i <= n; i++) {
-        shopProducts.products[i] = {};
+        shop.products[i] = {};
         message = prompt("Название продукта " + (i + 1), "Название продукта");
 
-        if (!!checkInput(message)) {
-            shopProducts.products[i].name = message;
-            message = prompt("Укажите цену продукта: " + shopProducts.products[i].name, "123");
-            if (!!checkNumber(message) && Number(message) >= 0.1) {
-                shopProducts.products[i].price = Number(message);
+        if (checkInput(message)) {
+            shop.products[i].name = message;
+            message = prompt("Укажите цену продукта: " + shop.products[i].name, "123");
+            if (checkNumber(message) && Number(message) >= 0.1) {
+                shop.products[i].price = Number(message);
             }
             else if (!checkNumber(message)) {
                 alert("Вы ввели не число");
@@ -108,21 +116,21 @@ function initProduct() {
 
 //функции магазина
 
-
 function shopFunction() {
     while (true) {
         message = prompt("можно выполнить следующие действия \n searchProductName - найти продукт по названию \n searchProductPrice - найти продукт по цене \n addProduct - добавить новый продукт \n updateByIndex - изменить цену товара по его номеру \n showProducts - Показать все продукты \n deleteByIndex - удалить продукт по номеру \n none - выти из магазина и вывести магазин в консоль");
+        // выйти и вывести в консоль весь магазин 
         if (message == "none") {
             alert("All the best!)");
-            showShop();
+            shop.exitStore();
             break;
         }
 
         // ищет продукт по названию
         else if (message == "searchProductName") {
             message = prompt("Введите название продукта который вы ищете");
-            if (!!checkInput(message)) {
-                searchProductName(message);
+            if (checkInput(message)) {
+                shop.searchProductName(message);
             }
             else {
                 alert("Вы не ввели название продукта");
@@ -131,8 +139,8 @@ function shopFunction() {
         // ищет продукт по цене
         else if (message == "searchProductPrice") {
             message = prompt("Введите цену продукта который вы ищете");
-            if (!!checkNumber(message) && !!checkInput(message)) {
-                searchProductPrice(message);
+            if (checkNumber(message) && checkInput(message)) {
+                shop.searchProductPrice(message);
             }
 
             else {
@@ -144,12 +152,12 @@ function shopFunction() {
             while (true) {
                 message = prompt("Введите название продукта");
 
-                if (!!checkInput(message)) {
+                if (checkInput(message)) {
                     newName = message;
                     message = prompt("Введите цену продукта", "11");
-                    if (!!checkNumber(message)) {
+                    if (checkNumber(message)) {
                         newPrice = message;
-                        addProduct(newName, newPrice);
+                        shop.addProduct(newName, newPrice);
                         alert("продукт " + '"' + newName + '"' + " с ценой " + newPrice + " успешно добавлен");
                         break;
                     }
@@ -162,41 +170,40 @@ function shopFunction() {
         }
         // выводит все продукты
         else if (message == "showProducts") {
-            showProducts();
+            shop.showProducts();
         }
         // меняет цену продукта по индексу
         else if (message == "updateByIndex") {
             message = prompt("Укажите позицию продукта");
-            if (!!shopProducts.products[message]) {
+            if (shop.products[message]) {
                 index = message;
-                message = prompt("Введите новую цену продукта: " + '"' + shopProducts.products[message].name + '"');
-                if (!!checkNumber(message)) {
+                message = prompt("Введите новую цену продукта: " + '"' + shop.products[message].name + '"');
+                if (checkNumber(message)) {
                     newPrice = message;
-                    updateByIndex(index, newPrice);
+                    shop.updateByIndex(index, newPrice);
                     alert("Вы успешно изменили цену продукта");
                 }
                 else {
                     alert("Вы не ввели новую цену продукта, изменение отменено");
                 }
             }
-            else if (!shopProducts.products[message]) {
+            else if (!shop.products[message]) {
                 alert("Такого продукта нет");
             }
         }
-
+        // Удалить продукт по индексу
         else if (message == "deleteByIndex") {
             message = prompt("Укажите позици продукта который нужно удалить");
-            if (!!shopProducts.products[message]) {
+            if (shop.products[message]) {
                 index = Number(message);
-                clone = shopProducts.products[index].name;
-                deleteByIndex(index);
+                clone = shop.products[index].name;
+                shop.deleteByIndex(index);
                 alert("Продукт " + '"' + clone + '"' + " удалён");
             }
-            else if (!shopProducts.products[message]) {
+            else if (!shop.products[message]) {
                 alert("Такого продукта нет");
             }
         }
-        else { };
     }
 }
 
@@ -204,34 +211,42 @@ function shopFunction() {
 /////////////////////////////////////////////
 //функция удаления продута по номеру в списке 
 function deleteByIndex(index) {
-    shopProducts.products.splice(index, 1);
+    shop.products.splice(index, 1);
 }
 
 ///////////////////////////////////////////////////
 //функция добавления нового продукта в конец списка 
 function addProduct(name, price) {
-    shopProducts.products.push({ name: name, price: Number(price) });
+    shop.products.push({ name: name, price: Number(price) });
 }
 
 /////////////////////////////////////////
 //функция вывода всего магазина в консоли 
-function showShop() {
-    console.log(shopProducts);
+function exitStore() {
+    var show = "";
+    for (i = 0; i < shop.products.length; i++) {
+        position = i;
+        show += "продукт №:" + position + " " + shop.products[i].name + ", стоит " + shop.products[i].price + "\n";
+    }
+    console.log("Название магазина: " + shop.name);
+    if (show != "") console.log("В вашем магазение есть следующие продуты \n" + show);
+    else console.log("В магазине нету продуктов");
+    console.log(shop);
 }
 
 /////////////////////////////////////////////
 //функция изменения цены товара по его номеру 
 function updateByIndex(index, newPrice) {
-    shopProducts.products[index].price = newPrice;
+    shop.products[index].price = newPrice;
 }
 
 ////////////////////////////////
 // функция вывода всех продуктов
 function showProducts() {
     var show = "";
-    for (i = 0; i < shopProducts.products.length; i++) {
+    for (i = 0; i < shop.products.length; i++) {
         position = i;
-        show += "продукт №" + position + " " + shopProducts.products[i].name + " стоит " + shopProducts.products[i].price + "\n";
+        show += "продукт №:" + position + " " + shop.products[i].name + ", стоит " + shop.products[i].price + "\n";
     }
     if (show != "") alert("В вашем магазение есть следующие продуты \n" + show);
     else alert("В магазине нету продуктов");
@@ -240,11 +255,11 @@ function showProducts() {
 ////////////////////////////////////////////////////////////////////////////////
 // функция которая находит продукт по названию, выводит название продукта и цену
 function searchProductName(name) {
-    counter = shopProducts.products.length;
-    for (i = 0; i < shopProducts.products.length; i++) {
-        position = shopProducts.products[i].name.indexOf(name);
-        if (position !== Number(-1) && !!checkInput(name)) {
-            alert("по запросу " + '"' + name + '"' + " найден продукт:\n " + shopProducts.products[i].name + " с ценой: " + shopProducts.products[i].price);
+    counter = shop.products.length;
+    for (i = 0; i < shop.products.length; i++) {
+        position = shop.products[i].name.indexOf(name);
+        if (position !== Number(-1) && checkInput(name)) {
+            alert("по запросу " + '"' + name + '"' + " найден продукт:\n " + shop.products[i].name + " с ценой: " + shop.products[i].price);
         }
         else {
             counter--;
@@ -254,26 +269,20 @@ function searchProductName(name) {
     if (counter === 0) {
         alert("Такого товара нет в наличии");
     }
-    else { };
 }
 
 ////////////////////////////////////////////////////////////////////////////
 // функция которая находит продукт по цене, выводит название продукта и цену
 function searchProductPrice(price) {
     var found;
-    for (i = 0; i < shopProducts.products.length; i++) {
-        if (shopProducts.products[i].price === Number(price)) {
-            alert("найден товар с названием: " + '"' + shopProducts.products[i].name + '"' + " с ценой: " + shopProducts.products[i].price);
+    for (i = 0; i < shop.products.length; i++) {
+        if (shop.products[i].price === Number(price)) {
+            alert("найден товар с названием: " + '"' + shop.products[i].name + '"' + " с ценой: " + shop.products[i].price);
             found = true;
         }
-        else { }
     }
-    if (found != true) {
+    if (!found) {
         alert("Товар с ценой " + '"' + price + '"' + " нет в наличии");
     }
-    else { }
 }
-
-
-
 
